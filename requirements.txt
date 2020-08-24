@@ -1,0 +1,9 @@
+pytz
+astral
+nrewebservices
+feedparser
+twitter
+tubestatus
+bs4
+lxml
+numpy
