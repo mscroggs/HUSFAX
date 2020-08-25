@@ -23,7 +23,7 @@ title = (
     "-------------------------y......yy----------y..yyyyy----------y..y..yy\n"
     "-----------------------yyyyyyyyyyy--------yyyyyyyyyy--------yyyyyyyyyy\n"
     "-----------------------yyyyyyyyyyy--------yyyyyyyyyy--------yyyyyyyyyy"
-    ).replace(".", "b")
+    "").replace(".", "b")
 
 
 twitter_access_key = None
