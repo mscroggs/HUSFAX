@@ -15,7 +15,7 @@ class LottoPage(Page):
         data = load_csv("https://www.national-lottery.co.uk/"
                         "results/lotto/draw-history/csv")
         res = data[1]
-        self.date = datetime.datetime.strptime(res[0], "%m-%b-%Y")
+        self.date = datetime.datetime.strptime(res[0], "%d-%b-%Y")
         self.numbers = [str(j) for j in sorted([int(i) for i in res[1:7]])]
         self.bonus = res[7]
         self.set_of_balls = res[8]

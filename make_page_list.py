@@ -11,11 +11,8 @@ config.NAME = "HUSFAX"
 for i, j in _c.__dict__.items():
     setattr(config, i, j)
 
-test = None
-
-for i, a in enumerate(sys.argv):
-    if a in ["-t", "--test", "-T"] and i + 1 < len(sys.argv):
-        test = sys.argv[i + 1]
-
-c = Ceefax(test)
-c.begin()
+c = Ceefax()
+c.start_page_manager()
+with open("PAGES.md", "w") as f:
+    for n, page in c.page_manager.sorted_pages():
+        f.write(f"{n} {page.title}\n")
