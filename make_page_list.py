@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from ceefax import config, Ceefax
+from ceefax.page import PageManager
+from ceefax.cupt import DummyScreen
 import sys
 import os
 import config as _c
@@ -11,8 +13,7 @@ config.NAME = "HUSFAX"
 for i, j in _c.__dict__.items():
     setattr(config, i, j)
 
-c = Ceefax()
-c.start_page_manager()
+page_manager = PageManager(DummyScreen())
 with open("PAGES.md", "w") as f:
-    for n, page in c.page_manager.sorted_pages():
+    for n, page in page_manager.sorted_pages():
         f.write(f"{n} {page.title}\n")
