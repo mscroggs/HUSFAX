@@ -7,3 +7,4 @@ tubestatus
 bs4
 lxml
 numpy
+scholarly
