@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
-from ceefax import config, Ceefax
+from ceefax import config
 from ceefax.page import PageManager
 from ceefax.cupt import DummyScreen
-import sys
 import os
 import config as _c
 

@@ -255,7 +255,7 @@ class CountdownLettersPage(Page):
                 for word in words.split():
                     if len(word) in self.words:
                         self.words[len(word)].append(word.upper())
-            except:
+            except:  # noqa: E722
                 self.words = None
         from random import randrange, shuffle
         vowels = ["A"] * 15 + ["E"] * 21 + ["I"] * 13 + ["O"] * 13 + ["U"] * 5

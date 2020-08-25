@@ -3,7 +3,6 @@ import os
 from ceefax.page import PageManager
 from ceefax.cupt import DummyScreen
 from ceefax import config
-from ceefax import Ceefax
 
 import config as _c
 for i, j in _c.__dict__.items():
