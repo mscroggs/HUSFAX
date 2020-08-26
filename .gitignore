@@ -3,3 +3,5 @@ requirements-satisfied.txt
 .DS_Store
 .*.swp
 localconfig.py
+
+*.log
