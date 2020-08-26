@@ -12,8 +12,12 @@ class BarGraphPage(Page):
 
     def background(self):
         self.data = []
-        # Matthew, Jorgen
-        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ"]:
+
+        self.data = [10, 11, 12]
+        return
+
+        # Matthew, Jorgen, Igor
+        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ", "rSVxxwsAAAAJ"]:
             author = scholarly.search_author_id(id).fill()
             count = sum(int(paper.bib["cites"])
                         for paper in author.publications)
@@ -26,22 +30,21 @@ class BarGraphPage(Page):
         graph = []
         for i in range(44):
             line = ""
-            if self.data[0] > i:
-                line += "w" * 30
-            else:
-                line += "-" * 30
-            line += "-" * 10
-            if self.data[1] > i:
-                line += "w" * 30
-            else:
-                line += "-" * 30
+            for d, c in zip(self.data, ["r", "w", "b"]):
+                if d > i:
+                    line += c * 20
+                else:
+                    line += "-" * 20
+                line += "-" * 5
             graph.append(line)
         self.print_image("\n".join(graph[::-1]), 4, 5)
 
-        self.move_cursor(y=26, x=11)
-        self.add_text("Matthew W Scroggs")
-        self.move_cursor(y=26, x=53)
+        self.move_cursor(y=26, x=7)
+        self.add_text("Matthew W Scroggs", fg="RED")
+        self.move_cursor(y=26, x=32)
         self.add_text("J" + u"\u00F8" + "rgen S Dokken")
+        self.move_cursor(y=26, x=58)
+        self.add_text("Igor A Baratta", fg="BLUE")
 
         for x in [3, 76]:
             self.move_cursor(y=25, x=x)
