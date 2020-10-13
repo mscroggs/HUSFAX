@@ -14,7 +14,8 @@ class BarGraphPage(Page):
         self.data = []
 
         # Matthew, Jorgen, Igor
-        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ", "rSVxxwsAAAAJ"]:
+        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ"]:  # , "rSVxxwsAAAAJ"]:
+            print(id)
             author = scholarly.search_author_id(id).fill()
             count = sum(int(paper.bib["cites"])
                         for paper in author.publications)
