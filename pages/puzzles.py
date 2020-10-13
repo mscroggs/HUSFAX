@@ -120,7 +120,7 @@ class SudokuPage(Page):
                 return
             i, j = choice(possible)
             self.given[i][j] = True
-            calculated[i][j] = solution[i][j]
+            calculated[i][j] = self.solution[i][j]
             calculated = self.calculate(calculated)
 
     def calculate(self, calculated):
