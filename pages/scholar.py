@@ -41,8 +41,8 @@ class BarGraphPage(Page):
         self.add_text("Matthew W Scroggs", fg="RED")
         self.move_cursor(y=26, x=32)
         self.add_text("J" + u"\u00F8" + "rgen S Dokken")
-        self.move_cursor(y=26, x=58)
-        self.add_text("Igor A Baratta", fg="BLUE")
+#        self.move_cursor(y=26, x=58)
+#        self.add_text("Igor A Baratta", fg="BLUE")
 
         for x in [3, 76]:
             self.move_cursor(y=25, x=x)
