@@ -22,13 +22,13 @@ class BarGraphPage(Page):
 
     def generate_content(self):
         ymax = max(self.data)
-        per_pixel = max(1, ymax // 44)
+        per_pixel = 1 + ymax // 44
         self.add_title("Citation Counts", font="size4")
         graph = []
         for i in range(44):
             line = ""
             for d, c in zip(self.data, ["r", "w", "b"]):
-                if d > i:
+                if d > i*per_pixel:
                     line += c * 20
                 else:
                     line += "-" * 20
