@@ -28,7 +28,7 @@ class BarGraphPage(Page):
         for i in range(44):
             line = ""
             for d, c in zip(self.data, ["r", "w", "b"]):
-                if d > i*per_pixel:
+                if d > i * per_pixel:
                     line += c * 20
                 else:
                     line += "-" * 20
