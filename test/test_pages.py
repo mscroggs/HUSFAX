@@ -12,8 +12,9 @@ page_manager = PageManager(DummyScreen())
 
 
 @pytest.mark.parametrize("pnum", page_manager.pages.keys())
-def test_all_pages(pnum):
+def test_page(pnum):
     page = page_manager.pages[pnum]
+    page.test = True
 
     if page.background is not None:
         page.background()

@@ -16,6 +16,11 @@ class AOCPage(Page):
             self.importance = 5
         else:
             self.importance = 2
+
+        if self.test:
+            self.data = {"members": {}}
+            return
+
         self.data = url_handler.load_json(
             ("https://adventofcode.com/2020/leaderboard/"
              "private/view/442442.json"),
