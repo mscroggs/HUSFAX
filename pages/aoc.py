@@ -9,7 +9,7 @@ class AOCPage(Page):
         super().__init__(page_num)
         self.importance = 2
         self.title = "Advent of Code Leaderboard"
-        self.in_index = True
+        self.index_num = page_num
 
     def background(self):
         if datetime.now().month == 12:
@@ -28,7 +28,7 @@ class AOCPage(Page):
 
     def generate_content(self):
         self.add_title("Advent of Code", font='size4bold',
-                       fg="YELLOW", bg="WHITE")
+                       fg="YELLOW", bg="GREY")
         people = [i for i in self.data["members"].values()
                   if len(i["completion_day_level"]) > 0]
         people.sort(key=lambda i: -i["local_score"])
@@ -47,7 +47,7 @@ class AOCPage(Page):
                         self.add_text("*", fg="YELLOW")
                     else:
                         assert "1" in stars[str(i)]
-                        self.add_text("*", fg="WHITE")
+                        self.add_text("*", fg="GREY")
                 else:
                     self.add_text(" ")
             self.add_newline()
