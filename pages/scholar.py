@@ -14,7 +14,7 @@ class BarGraphPage(Page):
         self.data = []
 
         if self.test:
-            self.data = [25,30]
+            self.data = [25, 30]
             return
 
         # Matthew, Jorgen, Igor
