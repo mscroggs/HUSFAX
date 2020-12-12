@@ -58,7 +58,12 @@
 180 Merry lads' checklist
 181 Jackson Lamb novel
 182 Norwegian Flag
+341 Bitcoin
+342 Bitcoin vs US Dollar
+343 Bitcoin vs Pound
+344 Bitcoin vs Euro
 450 Google Scholar Citations
+510 Advent of Code Leaderboard
 555 Lotto results
 560 COVID19 in United Kingdom
 561 COVID19 in US
