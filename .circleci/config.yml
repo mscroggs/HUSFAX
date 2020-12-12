@@ -24,7 +24,7 @@ jobs:
           command: pip3 install git+https://github.com/mscroggs/CEEFAX.git --upgrade
           name: Install CEEFAX
       - run:
-          command: python3 -m pytest test/
+          command: python3 -m pytest test/ -v
           name: Test
 
 workflows:

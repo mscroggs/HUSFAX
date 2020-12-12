@@ -14,7 +14,7 @@ class BarGraphPage(Page):
         self.data = []
 
         # Matthew, Jorgen, Igor
-        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ", "rSVxxwsAAAAJ"]:
+        for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ"]:  # , "rSVxxwsAAAAJ"]:
             author = scholarly.search_author_id(id).fill()
             count = sum(int(paper.bib["cites"])
                         for paper in author.publications)
@@ -22,13 +22,13 @@ class BarGraphPage(Page):
 
     def generate_content(self):
         ymax = max(self.data)
-        per_pixel = max(1, ymax // 44)
+        per_pixel = 1 + ymax // 44
         self.add_title("Citation Counts", font="size4")
         graph = []
         for i in range(44):
             line = ""
             for d, c in zip(self.data, ["r", "w", "b"]):
-                if d > i:
+                if d > i * per_pixel:
                     line += c * 20
                 else:
                     line += "-" * 20
@@ -40,8 +40,8 @@ class BarGraphPage(Page):
         self.add_text("Matthew W Scroggs", fg="RED")
         self.move_cursor(y=26, x=32)
         self.add_text("J" + u"\u00F8" + "rgen S Dokken")
-        self.move_cursor(y=26, x=58)
-        self.add_text("Igor A Baratta", fg="BLUE")
+#        self.move_cursor(y=26, x=58)
+#        self.add_text("Igor A Baratta", fg="BLUE")
 
         for x in [3, 76]:
             self.move_cursor(y=25, x=x)

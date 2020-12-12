@@ -92,7 +92,7 @@ class SudokuPage(Page):
         self.title = "Sudoku"
         self.importance = 3
 
-    def background(self):
+    def make_solution(self):
         solution = [[0 for j in range(9)] for i in range(9)]
         for i in range(9):
             for j in range(9):
@@ -103,10 +103,14 @@ class SudokuPage(Page):
                          for b in range(j // 3 * 3, j // 3 * 3 + 3)]
                 options = [a for a in range(1, 10) if a not in used]
                 if len(options) == 0:
-                    self.background()
-                    return
+                    return None
                 solution[i][j] = choice(options)
-        self.solution = solution
+        return solution
+
+    def background(self):
+        self.solution = None
+        while self.solution is None:
+            self.solution = self.make_solution()
         self.given = [[False for j in range(9)] for i in range(9)]
         calculated = [[None for j in range(9)] for i in range(9)]
         while True:
@@ -116,7 +120,7 @@ class SudokuPage(Page):
                 return
             i, j = choice(possible)
             self.given[i][j] = True
-            calculated[i][j] = solution[i][j]
+            calculated[i][j] = self.solution[i][j]
             calculated = self.calculate(calculated)
 
     def calculate(self, calculated):
