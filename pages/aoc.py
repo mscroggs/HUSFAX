@@ -3,8 +3,9 @@ from ceefax.helpers import url_handler
 import config
 from datetime import datetime
 
+
 class AOCPage(Page):
-    def __init__(self,page_num):
+    def __init__(self, page_num):
         super().__init__(page_num)
         self.importance = 2
         self.title = "Advent of Code Leaderboard"
@@ -16,9 +17,9 @@ class AOCPage(Page):
         else:
             self.importance = 2
         self.data = url_handler.load_json(
-            "https://adventofcode.com/2020/leaderboard/private/view/442442.json",
+            ("https://adventofcode.com/2020/leaderboard/"
+             "private/view/442442.json"),
             cookies={"session": config.aoc_session})
-
 
     def generate_content(self):
         self.add_title("Advent of Code", font='size4bold',
@@ -35,7 +36,7 @@ class AOCPage(Page):
             self.add_text(str(person["local_score"]))
             self.move_cursor(x=25)
             stars = person["completion_day_level"]
-            for i in range(1,26):
+            for i in range(1, 26):
                 if str(i) in stars:
                     if "2" in stars[str(i)]:
                         self.add_text("*", fg="YELLOW")
@@ -45,5 +46,6 @@ class AOCPage(Page):
                 else:
                     self.add_text(" ")
             self.add_newline()
+
 
 page = AOCPage("510")
