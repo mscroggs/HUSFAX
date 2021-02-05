@@ -13,6 +13,10 @@ class BarGraphPage(Page):
     def background(self):
         self.data = []
 
+        if self.test:
+            self.data = [25, 30]
+            return
+
         # Matthew, Jorgen, Igor
         for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ"]:  # , "rSVxxwsAAAAJ"]:
             author = scholarly.search_author_id(id).fill()

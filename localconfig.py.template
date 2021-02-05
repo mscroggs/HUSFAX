@@ -15,3 +15,6 @@ open_weather_api_key = ""
 
 # Location
 location = [51.5252257441084, -0.134831964969635]
+
+# Advent of code
+aoc_session = ""
