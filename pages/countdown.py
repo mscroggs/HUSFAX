@@ -81,7 +81,7 @@ def next(month, day, hour, min):
     return out
 
 
-page1 = CountdownPage("110", "Christmas", next(12, 25, 0, 0), "110-120")
+page1 = CountdownPage("110", "Christmas", next(12, 25, 0, 0), "110-121")
 page2 = CountdownPage("111", "Lockdown 1", datetime(2020, 3, 23, 20, 30))
 page3 = CountdownPage("112", "Lockdown 2", datetime(2020, 11, 5, 0, 1))
 page4 = CountdownPage("113", "EMF2022", datetime(2022, 8, 21, 11, 0))
@@ -92,5 +92,5 @@ page8 = CountdownPage("117", "Next year", next(1, 1, 0, 0))
 page9 = CountdownPage("118", "US Election", datetime(2020, 11, 3, 0, 0))
 page10 = CountdownPage("119", "UK left the EU", datetime(2020, 1, 31, 23, 0))
 page11 = CountdownPage("120", "MathsJam", datetime(2020, 11, 21, 12, 0))
-page12 = CountdownPage("121", "FEniCS 2021", datetime(2020, 3, 22, 12, 0))
+page12 = CountdownPage("121", "FEniCS 2021", datetime(2021, 3, 22, 12, 0))
 page12.importance = 5
