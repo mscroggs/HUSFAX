@@ -92,3 +92,5 @@ page8 = CountdownPage("117", "Next year", next(1, 1, 0, 0))
 page9 = CountdownPage("118", "US Election", datetime(2020, 11, 3, 0, 0))
 page10 = CountdownPage("119", "UK left the EU", datetime(2020, 1, 31, 23, 0))
 page11 = CountdownPage("120", "MathsJam", datetime(2020, 11, 21, 12, 0))
+page12 = CountdownPage("121", "FEniCS 2021", datetime(2020, 3, 22, 12, 0))
+page12.importance = 5
