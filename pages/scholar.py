@@ -51,12 +51,10 @@ class BarGraphPage(Page):
             self.move_cursor(y=25, x=x)
             self.add_text("0")
 
-        for x in [3 - len(str(self.data[0])), 76]:
-            self.move_cursor(y=25 - self.data[0] // (per_pixel * 2), x=x)
-            self.add_text(str(self.data[0]))
-        for x in [3 - len(str(self.data[1])), 76]:
-            self.move_cursor(y=25 - self.data[1] // (per_pixel * 2), x=x)
-            self.add_text(str(self.data[1]))
+        for d in self.data:
+            for x in [3 - len(str(d)), 76]:
+                self.move_cursor(y=25 - d // (per_pixel * 2), x=x)
+                self.add_text(str(d))
 
 
 b_page = BarGraphPage("450")
