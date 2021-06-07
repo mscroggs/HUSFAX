@@ -18,3 +18,7 @@ location = [51.5252257441084, -0.134831964969635]
 
 # Advent of code
 aoc_session = ""
+
+# Football-data token
+football_data_token = ""
+

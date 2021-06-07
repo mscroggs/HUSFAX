@@ -38,6 +38,10 @@ twitch_client_id = None
 
 location = [51.5252257441084, -0.134831964969635]
 
+aoc_session = None
+football_data_token = None
+
+
 try:
     from localconfig import *  # noqa: F403, F401
 except ImportError:
