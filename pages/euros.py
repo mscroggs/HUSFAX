@@ -196,7 +196,15 @@ class EuroKnockout(Page):
                 if m["homegoals"] is None:
                     self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']} ")
                     self.add_text(" " * (15 - len(m['home'])))
-                    self.add_text(m['home'] + " vs " + m['away'])
+                    if m["home"] in self.data.colours:
+                        self.add_text(m['home'], fg=self.data.colours[m["home"]])
+                    else:
+                        self.add_text(m['home'])
+                    self.add_text(" vs ")
+                    if m["away"] in self.data.colours:
+                        self.add_text(m['away'], fg=self.data.colours[m["away"]])
+                    else:
+                        self.add_text(m['away'])
                     self.add_newline()
                 else:
                     self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']} ")
