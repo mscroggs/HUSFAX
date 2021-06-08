@@ -90,6 +90,7 @@ class FootballData:
         except:
             pass
 
+
 class EuroPage(Page):
     def __init__(self, data):
         super().__init__("200")
