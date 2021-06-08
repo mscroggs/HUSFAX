@@ -1,0 +1,40 @@
+name: HUSFAX CI
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  run-tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: actions/checkout@v2
+      - run: |
+            pip install pytest pytest
+        name: Install test dependencies
+      - run: pip install -r requirements.txt
+        name: Install requirements.txt
+      - run: pip3 install git+https://github.com/mscroggs/CEEFAX.git --upgrade
+        name: Install CEEFAX
+      - run: python3 -m pytest test/ -v
+        name: Run tests
+
+  style-checks:
+    name: Run style checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - uses: actions/checkout@v2
+      - run: |
+            pip install pytest pytest flake8
+      - run: python3 -m flake8 .
+        name: Flake8 checks
