@@ -61,6 +61,11 @@
 180 Merry lads' checklist
 181 Jackson Lamb novel
 182 Norwegian Flag
+200 Euro 2020
+201 Euro 2020 Groups
+202 Euro 2020 Knockout
+203 Euro 2020 Results
+204 Euro 2020 Fixtures
 450 Google Scholar Citations
 510 Advent of Code Leaderboard
 555 Lotto results

@@ -26,67 +26,69 @@ class FootballData:
         }
         self.matches = []
 
-        connection = http.client.HTTPConnection('api.football-data.org')
-        headers = {'X-Auth-Token': config.football_data_token}
-        connection.request('GET', '/v2/competitions/EC/matches?season=2021', None, headers)
-        response = json.loads(connection.getresponse().read().decode())
+        try:
+            connection = http.client.HTTPConnection('api.football-data.org')
+            headers = {'X-Auth-Token': config.football_data_token}
+            connection.request('GET', '/v2/competitions/EC/matches?season=2021', None, headers)
+            response = json.loads(connection.getresponse().read().decode())
 
-        for m in response["matches"]:
-            if m["group"] is not None:
-                g = m["group"][-1]
+            for m in response["matches"]:
+                if m["group"] is not None:
+                    g = m["group"][-1]
+                    home = m["homeTeam"]["name"]
+                    away = m["awayTeam"]["name"]
+                    winner = m["score"]["winner"]
+                    if winner is not None:
+                        self.points[g][home]["P"] += 1
+                        self.points[g][away]["P"] += 1
+                        self.points[g][home]["GF"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][home]["GD"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][home]["GA"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][home]["GD"] -= m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away]["GF"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away]["GD"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away]["GA"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][away]["GD"] -= m["score"]["fullTime"]["homeTeam"]
+                        if winner == "HOME_TEAM":
+                            self.points[g][home]["W"] += 1
+                            self.points[g][home]["Pts"] += 3
+                            self.points[g][away]["L"] += 1
+                        elif winner == "AWAY_TEAM":
+                            self.points[g][away]["W"] += 1
+                            self.points[g][away]["Pts"] += 3
+                            self.points[g][home]["L"] += 1
+                        else:
+                            self.points[g][away]["D"] += 1
+                            self.points[g][away]["Pts"] += 1
+                            self.points[g][home]["D"] += 1
+                            self.points[g][home]["Pts"] += 1
+
+            for m in response["matches"]:
+                date = m["utcDate"].split("T")[0]
+                year, month, day = date.split("-")
+                if month == "06":
+                    month = "June"
+                if month == "07":
+                    month = "July"
+                hour, minute = m["utcDate"].split("T")[1][:-4].split(":")
+                hour = str(int(hour) + 1)
                 home = m["homeTeam"]["name"]
                 away = m["awayTeam"]["name"]
-                winner = m["score"]["winner"]
-                if winner is not None:
-                    self.points[g][home]["P"] += 1
-                    self.points[g][away]["P"] += 1
-                    self.points[g][home]["GF"] += m["score"]["fullTime"]["homeTeam"]
-                    self.points[g][home]["GD"] += m["score"]["fullTime"]["homeTeam"]
-                    self.points[g][home]["GA"] += m["score"]["fullTime"]["awayTeam"]
-                    self.points[g][home]["GD"] -= m["score"]["fullTime"]["awayTeam"]
-                    self.points[g][away]["GF"] += m["score"]["fullTime"]["awayTeam"]
-                    self.points[g][away]["GD"] += m["score"]["fullTime"]["awayTeam"]
-                    self.points[g][away]["GA"] += m["score"]["fullTime"]["homeTeam"]
-                    self.points[g][away]["GD"] -= m["score"]["fullTime"]["homeTeam"]
-                    if winner == "HOME_TEAM":
-                        self.points[g][home]["W"] += 1
-                        self.points[g][home]["Pts"] += 3
-                        self.points[g][away]["L"] += 1
-                    elif winner == "AWAY_TEAM":
-                        self.points[g][away]["W"] += 1
-                        self.points[g][away]["Pts"] += 3
-                        self.points[g][home]["L"] += 1
-                    else:
-                        self.points[g][away]["D"] += 1
-                        self.points[g][away]["Pts"] += 1
-                        self.points[g][home]["D"] += 1
-                        self.points[g][home]["Pts"] += 1
+                if home is None:
+                    home = "???"
+                if away is None:
+                    away = "???"
+                self.matches.append({
+                    "day": day, "month": month, "hour": hour, "minute": minute,
+                    "home": home, "away": away, "group": m['group'],
+                    "homegoals": m["score"]["fullTime"]["homeTeam"],
+                    "awaygoals": m["score"]["fullTime"]["awayTeam"]
+                })
 
-        for m in response["matches"]:
-            date = m["utcDate"].split("T")[0]
-            year, month, day = date.split("-")
-            if month == "06":
-                month = "June"
-            if month == "07":
-                month = "July"
-            hour, minute = m["utcDate"].split("T")[1][:-4].split(":")
-            hour = str(int(hour) + 1)
-            home = m["homeTeam"]["name"]
-            away = m["awayTeam"]["name"]
-            if home is None:
-                home = "???"
-            if away is None:
-                away = "???"
-            self.matches.append({
-                "day": day, "month": month, "hour": hour, "minute": minute,
-                "home": home, "away": away, "group": m['group'],
-                "homegoals": m["score"]["fullTime"]["homeTeam"],
-                "awaygoals": m["score"]["fullTime"]["awayTeam"]
-            })
-
-        for group in self.points:
-            self.points[group].sort(key=lambda x: (x["Pts"], x["GD"], x["GF"]))
-
+            for group in self.points:
+                self.points[group].sort(key=lambda x: (x["Pts"], x["GD"], x["GF"]))
+        except:
+            pass
 
 class EuroPage(Page):
     def __init__(self, data):
@@ -172,7 +174,7 @@ class EuroKnockout(Page):
         self.tagline = "It's coming home"
 
     def generate_content(self):
-        self.add_title("Euro 2020 Fixtures", font="size4")
+        self.add_title("Euro 2020 Knockout", font="size4")
         self.add_newline()
         for m in self.data.matches:
             if m["group"] is None:
