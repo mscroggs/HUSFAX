@@ -16,6 +16,17 @@ class FootballData:
             "F": ["France", "Germany", "Hungary", "Portugal"]
         }
 
+        self.colours = {
+            "England": "GREEN",
+            "Scotland": "GREEN",
+            "Wales": "GREEN",
+            "Poland": "GREEN",
+            "North Macedonia": "GREEN",
+            "Germany": "MAGENTA",
+            "Switzerland": "MAGENTA",
+            "???": "GREY"
+        }
+
         self.load()
 
     def load(self):
@@ -149,7 +160,10 @@ class EuroGroups(Page):
             self.add_newline()
             for team in self.data.points[group]:
                 self.move_cursor(x=st)
-                self.add_text(team["name"])
+                if team["name"] in self.data.colours:
+                    self.add_text(team["name"], fg=self.data.colours[team["name"]])
+                else:
+                    self.add_text(team["name"])
                 self.move_cursor(x=st + 16)
                 self.add_text(str(team["P"]))
                 self.move_cursor(x=st + 18)
@@ -187,9 +201,17 @@ class EuroKnockout(Page):
                 else:
                     self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']} ")
                     self.add_text(" " * (15 - len(m['home'])))
-                    self.add_text(m['home'] + " " + str(m['homegoals']))
+                    if m["home"] in self.data.colours:
+                        self.add_text(m['home'], fg=self.data.colours[m["home"]])
+                    else:
+                        self.add_text(m['home'])
+                    self.add_text(" " + str(m['homegoals']))
                     self.add_text(" - ")
-                    self.add_text(str(m['awaygoals']) + " " + m['away'])
+                    self.add_text(str(m['awaygoals']) + " ")
+                    if m["away"] in self.data.colours:
+                        self.add_text(m['away'], fg=self.data.colours[m["away"]])
+                    else:
+                        self.add_text(m['away'])
                     self.add_newline()
 
 
@@ -207,9 +229,15 @@ class EuroResults(Page):
             if m["homegoals"] is not None:
                 self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']} ")
                 self.add_text(" " * (15 - len(m['home'])))
-                self.add_text(m['home'] + " " + str(m['homegoals']))
-                self.add_text(" - ")
-                self.add_text(str(m['awaygoals']) + " " + m['away'])
+                if m["home"] in self.data.colours:
+                    self.add_text(m['home'], fg=self.data.colours[m["home"]])
+                else:
+                    self.add_text(m['home'])
+                self.add_text(f" {m['homegoals']} - {m['awaygoals']} ")
+                if m["away"] in self.data.colours:
+                    self.add_text(m['away'], fg=self.data.colours[m["away"]])
+                else:
+                    self.add_text(m['away'])
                 self.add_newline()
 
 
@@ -227,7 +255,15 @@ class EuroFixtures(Page):
             if m["homegoals"] is None:
                 self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']} ")
                 self.add_text(" " * (15 - len(m['home'])))
-                self.add_text(m['home'] + " vs " + m['away'])
+                if m["home"] in self.data.colours:
+                    self.add_text(m['home'], fg=self.data.colours[m["home"]])
+                else:
+                    self.add_text(m['home'])
+                self.add_text(" vs ")
+                if m["away"] in self.data.colours:
+                    self.add_text(m['away'], fg=self.data.colours[m["away"]])
+                else:
+                    self.add_text(m['away'])
                 self.add_newline()
 
 
