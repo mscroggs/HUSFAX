@@ -27,8 +27,6 @@ class FootballData:
             "???": "GREY"
         }
 
-        self.load()
-
     def load(self):
         self.points = {
             i: [{"name": k, "P": 0, "W": 0, "D": 0, "L": 0, "Pts": 0, "GF": 0, "GA": 0, "GD": 0}
@@ -38,11 +36,11 @@ class FootballData:
         self.matches = [
             {
                 "day": "??", "month": "Juny", "hour": "00", "minute": "00",
-                "home": None, "away": None, "group": None,
+                "home": "???", "away": "???", "group": None,
                 "homegoals": None, "awaygoals": None
             } for i in range(51)]
 
-        try:
+        if config.football_data_token is not None:
             connection = http.client.HTTPConnection('api.football-data.org')
             headers = {'X-Auth-Token': config.football_data_token}
             connection.request('GET', '/v2/competitions/EC/matches?season=2021', None, headers)
@@ -103,8 +101,6 @@ class FootballData:
 
             for group in self.points:
                 self.points[group].sort(key=lambda x: (x["Pts"], x["GD"], x["GF"]))
-        except:
-            pass
 
 
 class EuroPage(Page):
