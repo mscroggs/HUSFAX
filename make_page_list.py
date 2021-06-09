@@ -14,5 +14,7 @@ for i, j in _c.__dict__.items():
 
 page_manager = PageManager(DummyScreen())
 with open("PAGES.md", "w") as f:
+    f.write("| No. | Page title |\n")
+    f.write("| --- | ---------- |\n")
     for n, page in page_manager.sorted_pages():
-        f.write(f"{n} {page.title}\n")
+        f.write(f"| {n} | {page.title} |\n")
