@@ -35,7 +35,12 @@ class FootballData:
                 for k in j]
             for i, j in self.groups.items()
         }
-        self.matches = []
+        self.matches = [
+            {
+                "day": "??", "month": "Juny", "hour": "00", "minute": "00",
+                "home": None, "away": None, "group": None,
+                "homegoals": None, "awaygoals": None
+            } for i in range(51)]
 
         try:
             connection = http.client.HTTPConnection('api.football-data.org')
@@ -74,7 +79,7 @@ class FootballData:
                             self.points[g][home]["D"] += 1
                             self.points[g][home]["Pts"] += 1
 
-            for m in response["matches"]:
+            for i, m in enumerate(response["matches"]):
                 date = m["utcDate"].split("T")[0]
                 year, month, day = date.split("-")
                 if month == "06":
@@ -89,12 +94,12 @@ class FootballData:
                     home = "???"
                 if away is None:
                     away = "???"
-                self.matches.append({
+                self.matches[i] = {
                     "day": day, "month": month, "hour": hour, "minute": minute,
                     "home": home, "away": away, "group": m['group'],
                     "homegoals": m["score"]["fullTime"]["homeTeam"],
                     "awaygoals": m["score"]["fullTime"]["awayTeam"]
-                })
+                }
 
             for group in self.points:
                 self.points[group].sort(key=lambda x: (x["Pts"], x["GD"], x["GF"]))
@@ -188,9 +193,195 @@ class EuroKnockout(Page):
         self.title = "Euro 2020 Knockout"
         self.tagline = "It's coming home"
 
+    def add_team_name(self, name, align="left", bg=None):
+        if name is None:
+            name = "???"
+        if align == "right":
+            self.add_text(" " * (16 - len(name)), bg=bg)
+        if align == "center":
+            self.add_text(" " * (8 - len(name) // 2), bg=bg)
+        if name in self.data.colours:
+            self.add_text(name, fg=self.data.colours[name], bg=bg)
+        else:
+            self.add_text(name, bg=bg)
+        if align == "left":
+            self.add_text(" " * (16 - len(name)), bg=bg)
+        if align == "center":
+            self.add_text(" " * (8 - len(name) + len(name) // 2), bg=bg)
+
+    def add_match_right(self, n, x=0, y=0, bg="YELLOW"):
+        m = self.data.matches[n]
+        self.move_cursor(x=x, y=y)
+        self.add_team_name(m["home"], "right", bg=bg)
+        if m["homegoals"] is None:
+            self.add_text("  ", bg=bg)
+        else:
+            self.add_text(" " + m["homegoals"], bg=bg)
+        self.move_cursor(x=x, y=y + 1)
+        self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
+        self.add_text(" vs  ", bg=bg)
+        self.move_cursor(x=x, y=y + 2)
+        self.add_team_name(m["away"], "right", bg=bg)
+        if m["awaygoals"] is None:
+            self.add_text("  ", bg=bg)
+        else:
+            self.add_text(" " + m["awaygoals"], bg=bg)
+
+    def add_match_left(self, n, x=0, y=0, bg="YELLOW"):
+        m = self.data.matches[n]
+        self.move_cursor(x=x, y=y)
+        if m["homegoals"] is None:
+            self.add_text("  ", bg=bg)
+        else:
+            self.add_text(" " + m["homegoals"], bg=bg)
+        self.add_team_name(m["home"], "left", bg=bg)
+        self.move_cursor(x=x, y=y + 1)
+        self.add_text("  vs ", bg=bg)
+        self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
+        self.move_cursor(x=x, y=y + 2)
+        if m["awaygoals"] is None:
+            self.add_text("  ", bg=bg)
+        else:
+            self.add_text(" " + m["awaygoals"], bg=bg)
+        self.add_team_name(m["away"], "left", bg=bg)
+
+    def add_match_bottom(self, n, x=0, y=0, bg="YELLOW"):
+        m = self.data.matches[n]
+        self.move_cursor(x=x, y=y)
+        self.add_team_name(m["home"], "right", bg=bg)
+        if m["homegoals"] is None:
+            self.add_text("  vs  ", bg=bg)
+        else:
+            self.add_text(f" {m['homegoals']}  {m['awaygoals']} ", bg=bg)
+        self.add_team_name(m["away"], "left", bg=bg)
+        self.move_cursor(x=x + 12, y=y + 1)
+        self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
+
+    def add_match_top(self, n, x=0, y=0, bg="YELLOW"):
+        m = self.data.matches[n]
+        self.move_cursor(x=x + 12, y=y)
+        self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
+        self.move_cursor(x=x, y=y + 1)
+        self.add_team_name(m["home"], "right", bg=bg)
+        if m["homegoals"] is None:
+            self.add_text("  vs  ", bg=bg)
+        else:
+            self.add_text(f" {m['homegoals']}  {m['awaygoals']} ", bg=bg)
+        self.add_team_name(m["away"], "left", bg=bg)
+
+    def add_match_final(self, n, x=0, y=0, bg="YELLOW"):
+        m = self.data.matches[n]
+        self.move_cursor(x=x, y=y)
+        self.add_team_name(m["home"], "center", bg=bg)
+        self.move_cursor(x=x, y=y + 1)
+        self.add_text(" " * 16, bg=bg)
+        if m["homegoals"] is not None:
+            self.move_cursor(x=x + 7, y=y + 1)
+            self.add_text(m['homegoals'], bg=bg)
+        self.move_cursor(x=x, y=y + 2)
+        self.add_text(" ", bg=bg)
+        self.move_cursor(x=x + 1, y=y + 2)
+        self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
+        self.move_cursor(x=x + 15, y=y + 2)
+        self.add_text(" ", bg=bg)
+        self.move_cursor(x=x, y=y + 3)
+        self.add_text(" " * 16, bg=bg)
+        if m["awaygoals"] is not None:
+            self.move_cursor(x=x + 8, y=y + 1)
+            self.add_text(m['awaygoals'], bg=bg)
+        self.move_cursor(x=x, y=y + 4)
+        self.add_team_name(m["away"], "center", bg=bg)
+
     def generate_content(self):
         self.add_title("Euro 2020 Knockout", font="size4")
-        self.add_newline()
+        self.add_match_right(38, x=0, y=5)
+        self.add_match_right(36, x=0, y=11)
+        self.add_match_right(42, x=0, y=17)
+        self.add_match_right(43, x=0, y=23)
+        self.add_match_left(40, x=62, y=5)
+        self.add_match_left(41, x=62, y=11)
+        self.add_match_left(39, x=62, y=17)
+        self.add_match_left(37, x=62, y=23)
+
+        self.add_match_right(45, x=20, y=6, bg="CYAN")
+        self.add_match_left(44, x=42, y=6, bg="CYAN")
+        self.add_match_right(47, x=20, y=22, bg="CYAN")
+        self.add_match_left(46, x=42, y=22, bg="CYAN")
+
+        self.add_match_top(48, x=21, y=10, bg="ORANGE")
+        self.add_match_bottom(49, x=21, y=19, bg="ORANGE")
+
+        self.add_match_final(50, x=32, y=13, bg="GREY")
+
+        ar = u"\u8594"
+        al = u"\u8592"
+        au = u"\u8593"
+        ad = u"\u8595"
+        self.move_cursor(x=18, y=6)
+        self.add_text(f"{ar}{ar}")
+        self.move_cursor(x=18, y=24)
+        self.add_text(f"{ar}{ar}")
+        self.move_cursor(x=60, y=6)
+        self.add_text(f"{al}{al}")
+        self.move_cursor(x=60, y=24)
+        self.add_text(f"{al}{al}")
+
+        self.move_cursor(x=17, y=10)
+        self.add_text(f"{au}")
+        self.move_cursor(x=17, y=9)
+        self.add_text(f"{ar}{ar}{au}")
+        self.move_cursor(x=19, y=8)
+        self.add_text(f"{ar}")
+
+        self.move_cursor(x=62, y=10)
+        self.add_text(f"{au}")
+        self.move_cursor(x=60, y=9)
+        self.add_text(f"{au}{al}{al}")
+        self.move_cursor(x=60, y=8)
+        self.add_text(f"{al}")
+
+        self.move_cursor(x=17, y=20)
+        self.add_text(f"{ad}")
+        self.move_cursor(x=17, y=21)
+        self.add_text(f"{ar}{ar}{ad}")
+        self.move_cursor(x=19, y=22)
+        self.add_text(f"{ar}")
+
+        self.move_cursor(x=62, y=20)
+        self.add_text(f"{ad}")
+        self.move_cursor(x=60, y=21)
+        self.add_text(f"{ad}{al}{al}")
+        self.move_cursor(x=60, y=22)
+        self.add_text(f"{al}")
+
+        self.move_cursor(x=26, y=9)
+        self.add_text(f"{ad}")
+        self.move_cursor(x=26, y=10)
+        self.add_text(f"{ad}")
+
+        self.move_cursor(x=53, y=9)
+        self.add_text(f"{ad}")
+        self.move_cursor(x=53, y=10)
+        self.add_text(f"{ad}")
+
+        self.move_cursor(x=26, y=21)
+        self.add_text(f"{au}")
+        self.move_cursor(x=26, y=20)
+        self.add_text(f"{au}")
+
+        self.move_cursor(x=53, y=21)
+        self.add_text(f"{au}")
+        self.move_cursor(x=53, y=20)
+        self.add_text(f"{au}")
+
+        self.move_cursor(x=38, y=18)
+        self.add_text(f"{au}{au}{au}{au}")
+
+        self.move_cursor(x=38, y=12)
+        self.add_text(f"{ad}{ad}{ad}{ad}")
+
+        return
+
         for m in self.data.matches:
             if m["group"] is None:
                 if m["homegoals"] is None:
