@@ -66,10 +66,6 @@
 202 Euro 2020 Knockout
 203 Euro 2020 Results
 204 Euro 2020 Fixtures
-341 Bitcoin
-342 Bitcoin vs US Dollar
-343 Bitcoin vs Pound
-344 Bitcoin vs Euro
 450 Google Scholar Citations
 510 Advent of Code Leaderboard
 555 Lotto results
