@@ -313,10 +313,10 @@ class EuroKnockout(Page):
 
         self.add_match_final(50, x=32, y=13, bg="GREY")
 
-        ar = u"\u8594"
-        al = u"\u8592"
-        au = u"\u8593"
-        ad = u"\u8595"
+        ar = chr(8594)
+        al = chr(8592)
+        au = chr(8593)
+        ad = chr(8595)
         self.move_cursor(x=18, y=6)
         self.add_text(f"{ar}{ar}")
         self.move_cursor(x=18, y=24)
