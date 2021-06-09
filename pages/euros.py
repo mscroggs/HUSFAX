@@ -209,7 +209,7 @@ class EuroKnockout(Page):
         if align == "center":
             self.add_text(" " * (8 - len(name) + len(name) // 2), bg=bg)
 
-    def add_match_right(self, n, x=0, y=0, bg="YELLOW"):
+    def add_match_right(self, n, x=0, y=0, bg="PINK"):
         m = self.data.matches[n]
         self.move_cursor(x=x, y=y)
         self.add_team_name(m["home"], "right", bg=bg)
@@ -227,7 +227,7 @@ class EuroKnockout(Page):
         else:
             self.add_text(" " + m["awaygoals"], bg=bg)
 
-    def add_match_left(self, n, x=0, y=0, bg="YELLOW"):
+    def add_match_left(self, n, x=0, y=0, bg="PINK"):
         m = self.data.matches[n]
         self.move_cursor(x=x, y=y)
         if m["homegoals"] is None:
@@ -245,7 +245,7 @@ class EuroKnockout(Page):
             self.add_text(" " + m["awaygoals"], bg=bg)
         self.add_team_name(m["away"], "left", bg=bg)
 
-    def add_match_bottom(self, n, x=0, y=0, bg="YELLOW"):
+    def add_match_bottom(self, n, x=0, y=0, bg="PINK"):
         m = self.data.matches[n]
         self.move_cursor(x=x, y=y)
         self.add_team_name(m["home"], "right", bg=bg)
@@ -257,7 +257,7 @@ class EuroKnockout(Page):
         self.move_cursor(x=x + 12, y=y + 1)
         self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
 
-    def add_match_top(self, n, x=0, y=0, bg="YELLOW"):
+    def add_match_top(self, n, x=0, y=0, bg="PINK"):
         m = self.data.matches[n]
         self.move_cursor(x=x + 12, y=y)
         self.add_text(f"{m['day']} {m['month']} {m['hour']}:{m['minute']}", fg=bg)
@@ -269,7 +269,7 @@ class EuroKnockout(Page):
             self.add_text(f" {m['homegoals']}  {m['awaygoals']} ", bg=bg)
         self.add_team_name(m["away"], "left", bg=bg)
 
-    def add_match_final(self, n, x=0, y=0, bg="YELLOW"):
+    def add_match_final(self, n, x=0, y=0, bg="PINK"):
         m = self.data.matches[n]
         self.move_cursor(x=x, y=y)
         self.add_team_name(m["home"], "center", bg=bg)
