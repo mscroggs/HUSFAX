@@ -51,31 +51,38 @@ class FootballData:
                     g = m["group"][-1]
                     home = m["homeTeam"]["name"]
                     away = m["awayTeam"]["name"]
+                    home_n = None
+                    away_n = None
+                    for i, j in enumerate(self.points[g]):
+                        if j["name"] == home:
+                            home_n = i
+                        if j["name"] == away:
+                            away_n = i
                     winner = m["score"]["winner"]
                     if winner is not None:
-                        self.points[g][home]["P"] += 1
-                        self.points[g][away]["P"] += 1
-                        self.points[g][home]["GF"] += m["score"]["fullTime"]["homeTeam"]
-                        self.points[g][home]["GD"] += m["score"]["fullTime"]["homeTeam"]
-                        self.points[g][home]["GA"] += m["score"]["fullTime"]["awayTeam"]
-                        self.points[g][home]["GD"] -= m["score"]["fullTime"]["awayTeam"]
-                        self.points[g][away]["GF"] += m["score"]["fullTime"]["awayTeam"]
-                        self.points[g][away]["GD"] += m["score"]["fullTime"]["awayTeam"]
-                        self.points[g][away]["GA"] += m["score"]["fullTime"]["homeTeam"]
-                        self.points[g][away]["GD"] -= m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][home_n]["P"] += 1
+                        self.points[g][away_n]["P"] += 1
+                        self.points[g][home_n]["GF"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][home_n]["GD"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][home_n]["GA"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][home_n]["GD"] -= m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away_n]["GF"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away_n]["GD"] += m["score"]["fullTime"]["awayTeam"]
+                        self.points[g][away_n]["GA"] += m["score"]["fullTime"]["homeTeam"]
+                        self.points[g][away_n]["GD"] -= m["score"]["fullTime"]["homeTeam"]
                         if winner == "HOME_TEAM":
-                            self.points[g][home]["W"] += 1
-                            self.points[g][home]["Pts"] += 3
-                            self.points[g][away]["L"] += 1
+                            self.points[g][home_n]["W"] += 1
+                            self.points[g][home_n]["Pts"] += 3
+                            self.points[g][away_n]["L"] += 1
                         elif winner == "AWAY_TEAM":
-                            self.points[g][away]["W"] += 1
-                            self.points[g][away]["Pts"] += 3
-                            self.points[g][home]["L"] += 1
+                            self.points[g][away_n]["W"] += 1
+                            self.points[g][away_n]["Pts"] += 3
+                            self.points[g][home_n]["L"] += 1
                         else:
-                            self.points[g][away]["D"] += 1
-                            self.points[g][away]["Pts"] += 1
-                            self.points[g][home]["D"] += 1
-                            self.points[g][home]["Pts"] += 1
+                            self.points[g][away_n]["D"] += 1
+                            self.points[g][away_n]["Pts"] += 1
+                            self.points[g][home_n]["D"] += 1
+                            self.points[g][home_n]["Pts"] += 1
 
             for i, m in enumerate(response["matches"]):
                 date = m["utcDate"].split("T")[0]
@@ -100,7 +107,7 @@ class FootballData:
                 }
 
             for group in self.points:
-                self.points[group].sort(key=lambda x: (x["Pts"], x["GD"], x["GF"]))
+                self.points[group].sort(key=lambda x: (-x["Pts"], -x["GD"], -x["GF"]))
 
 
 class EuroPage(Page):
