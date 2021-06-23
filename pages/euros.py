@@ -297,14 +297,14 @@ class EuroKnockout(Page):
 
     def generate_content(self):
         self.add_title("Euro 2020 Knockout", font="size4")
-        self.add_match_right(38, x=0, y=5)
-        self.add_match_right(36, x=0, y=11)
+        self.add_match_right(39, x=0, y=5)
+        self.add_match_right(37, x=0, y=11)
         self.add_match_right(42, x=0, y=17)
         self.add_match_right(43, x=0, y=23)
         self.add_match_left(40, x=62, y=5)
         self.add_match_left(41, x=62, y=11)
-        self.add_match_left(39, x=62, y=17)
-        self.add_match_left(37, x=62, y=23)
+        self.add_match_left(38, x=62, y=17)
+        self.add_match_left(36, x=62, y=23)
 
         self.add_match_right(45, x=20, y=6, bg="CYAN")
         self.add_match_left(44, x=42, y=6, bg="CYAN")
