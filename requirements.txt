@@ -7,4 +7,4 @@ tubestatus
 bs4
 lxml
 numpy
-scholarly
+scholarly >=1.2.1
