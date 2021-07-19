@@ -19,10 +19,7 @@ class BarGraphPage(Page):
 
         # Matthew, Jorgen, Igor
         for id in ["wxM0Gh8AAAAJ", "hfeXoYMAAAAJ", "rSVxxwsAAAAJ"]:
-            author = scholarly.search_author_id(id).fill()
-            count = sum(int(paper.bib["cites"])
-                        for paper in author.publications)
-            self.data.append(count)
+            self.data.append(scholarly.search_author_id(id).get("citedby"))
 
     def generate_content(self):
         ymax = max(self.data)

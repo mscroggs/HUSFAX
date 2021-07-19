@@ -475,9 +475,3 @@ page1 = EuroGroups(d)
 page2 = EuroKnockout(d)
 page3 = EuroResults(d)
 page4 = EuroFixtures(d)
-
-if datetime.now().year == 2021 and datetime.now().month in [6, 7]:
-    page1.importance = 5
-    page2.importance = 5
-    page3.importance = 5
-    page4.importance = 5
