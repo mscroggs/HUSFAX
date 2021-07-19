@@ -1,5 +1,4 @@
 from ceefax.page import Page
-from datetime import datetime
 import http.client
 import json
 import config
