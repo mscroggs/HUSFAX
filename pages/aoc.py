@@ -22,7 +22,7 @@ class AOCPage(Page):
             return
 
         self.data = url_handler.load_json(
-            ("https://adventofcode.com/2020/leaderboard/"
+            ("https://adventofcode.com/2021/leaderboard/"
              "private/view/442442.json"),
             cookies={"session": config.aoc_session})
 
